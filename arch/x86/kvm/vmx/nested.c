@@ -2639,7 +2639,6 @@ static int prepare_vmcs02(struct kvm_vcpu *vcpu, struct vmcs12 *vmcs12,
 	vmcs_writel(CR0_READ_SHADOW, nested_read_cr0(vmcs12));
 
 	vmx_set_cr4(vcpu, vmcs12->guest_cr4);
-	vmcs_writel(CR4_READ_SHADOW, nested_read_cr4(vmcs12));
 
 	vcpu->arch.efer = nested_vmx_calc_efer(vmx, vmcs12);
 	/* Note: may modify VM_ENTRY/EXIT_CONTROLS and GUEST/HOST_IA32_EFER */
