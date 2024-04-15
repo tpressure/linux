@@ -3478,7 +3478,11 @@ void vmx_set_cr4(struct kvm_vcpu *vcpu, unsigned long cr4)
 			hw_cr4 &= ~(X86_CR4_SMEP | X86_CR4_SMAP | X86_CR4_PKE);
 	}
 
-	vmcs_writel(CR4_READ_SHADOW, cr4);
+	if (is_guest_mode(vcpu))
+		vmcs_writel(CR4_READ_SHADOW, nested_read_cr4(get_vmcs12(vcpu)));
+	else
+		vmcs_writel(CR4_READ_SHADOW, cr4);
+
 	vmcs_writel(GUEST_CR4, hw_cr4);
 
 	if ((cr4 ^ old_cr4) & (X86_CR4_OSXSAVE | X86_CR4_PKE))
